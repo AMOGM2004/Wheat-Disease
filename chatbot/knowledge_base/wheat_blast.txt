@@ -1,0 +1,35 @@
+DISEASE: Wheat Blast
+PATHOGEN: Magnaporthe oryzae Triticum (MoT)
+STAGE: Reproductive (heading to grain fill)
+
+SYMPTOMS:
+- Bleached or whitish spikelets starting from the tip of the ear
+- Partially or fully bleached heads while rest of plant stays green
+- Dark brown lesions at base of the rachis
+- Shriveled, discolored, or absent grains
+- Black sooty spore masses in humid conditions
+- "Frosted" appearance at spike tip
+
+CAUSES:
+- Fungus Magnaporthe oryzae pathotype Triticum
+- Spreads via airborne spores over long distances
+- Warm temperature 25-30°C with high humidity above 90%
+- Dense crop canopy traps moisture
+- Infected seeds carry and spread the pathogen
+
+TREATMENT:
+- Apply triazole fungicides (tebuconazole, propiconazole) at heading
+- Strobilurin fungicides (azoxystrobin) in combination
+- Spray at flag leaf emergence and again at 50% heading
+- Remove and destroy infected plant material immediately
+- Treat seeds with systemic fungicides before sowing
+
+PREVENTION:
+- Use certified disease-free seed
+- Avoid sowing during high humidity and warm temperatures
+- Maintain proper plant spacing for air circulation
+- Monitor fields regularly from heading stage
+- Follow crop rotation in blast-prone areas
+
+SEVERITY: High — can cause 10-100% yield loss
+FAVORABLE CONDITIONS: Temperature 25-30°C, Humidity above 90%, Rain at heading

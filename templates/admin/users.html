@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Farmers - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👨‍🌾 Registered Farmers</h1>
+            <p><a href="{{ url_for('admin.dashboard') }}">← Back to Dashboard</a></p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Verified</th>
+                        <th>Registered On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user[0] }}</td>
+                        <td><strong>{{ user[1] }}</strong></td>
+                        <td>{{ user[2] }}</td>
+                        <td>
+                            <span class="stage-badge {% if user[3] == 'admin' %}stage-moderate{% else %}stage-early{% endif %}">
+                                {{ user[3] }}
+                            </span>
+                        </td>
+                        <td>{% if user[4] == 1 %}✅ Verified{% else %}⏳ Pending{% endif %}</td>
+                        <td>{{ user[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

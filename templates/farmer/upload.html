@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image - Farmer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --soil:     #2C1A0E;
+            --bark:     #4A2E1A;
+            --moss:     #3A6B35;
+            --leaf:     #5A9E52;
+            --sprout:   #7DC472;
+            --mist:     #EEF5EC;
+            --cream:    #F9F5EF;
+            --parchment:#F0E8D8;
+            --gold:     #C8922A;
+            --rust:     #C0522A;
+            --sky:      #D4EAD0;
+            --text:     #1E1208;
+            --subtle:   #6B5744;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(90,158,82,0.12) 0%, transparent 70%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233A6B35' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* ── TOP NAV ─────────────────────────────────────────── */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 48px;
+            background: rgba(249,245,239,0.80);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(58,107,53,0.12);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .topbar-brand {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem; color: var(--moss);
+        }
+        .topbar-right { display: flex; align-items: center; gap: 10px; }
+        .welcome-pill {
+            font-size: 0.82rem; font-weight: 500;
+            background: var(--mist);
+            border: 1px solid rgba(58,107,53,0.18);
+            color: var(--moss);
+            padding: 6px 14px; border-radius: 100px;
+        }
+        .nav-link {
+            font-size: 0.82rem; font-weight: 600;
+            color: var(--subtle); text-decoration: none;
+            padding: 6px 14px;
+            border: 1px solid rgba(107,87,68,0.25);
+            border-radius: 100px;
+            transition: all .2s;
+        }
+        .nav-link:hover { background: var(--parchment); color: var(--bark); border-color: var(--bark); }
+
+        /* ── PAGE LAYOUT ─────────────────────────────────────── */
+        .page {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 56px 24px 80px;
+        }
+
+        /* ── BREADCRUMB ──────────────────────────────────────── */
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; color: var(--subtle);
+            margin-bottom: 32px;
+            animation: fadeUp .4s ease both;
+        }
+        .breadcrumb a { color: var(--moss); text-decoration: none; font-weight: 500; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { opacity: 0.5; }
+
+        /* ── UPLOAD CARD ─────────────────────────────────────── */
+        .upload-card {
+            width: 100%; max-width: 560px;
+            background: #fff;
+            border: 1px solid rgba(58,107,53,0.12);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 48px rgba(44,26,14,0.08);
+            animation: fadeUp .5s .05s ease both;
+        }
+        .card-top {
+            background: linear-gradient(135deg, var(--moss), var(--leaf));
+            padding: 32px 36px 28px;
+        }
+        .card-top .page-icon {
+            width: 52px; height: 52px; background: rgba(255,255,255,0.18);
+            border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem; margin-bottom: 16px;
+        }
+        .card-top h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem; color: #fff; line-height: 1.2;
+        }
+        .card-top p {
+            margin-top: 6px; font-size: 0.85rem;
+            color: rgba(255,255,255,0.75); font-weight: 300;
+        }
+
+        .card-body { padding: 32px 36px 36px; }
+
+        /* ── FLASH MESSAGES ──────────────────────────────────── */
+        .alert {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: #FFF8E1;
+            border: 1px solid #FFE082;
+            border-left: 4px solid var(--gold);
+            color: #6D4C00;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 24px;
+            animation: fadeUp .3s ease both;
+        }
+        .alert::before { content: '⚠️'; flex-shrink: 0; }
+
+        /* ── DROP ZONE ───────────────────────────────────────── */
+        .drop-zone {
+            position: relative;
+            border: 2px dashed rgba(58,107,53,0.30);
+            border-radius: 16px;
+            padding: 44px 24px;
+            text-align: center;
+            background: var(--mist);
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            border-color: var(--moss);
+            background: #E4F0E2;
+        }
+        .drop-zone input[type="file"] {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            opacity: 0; cursor: pointer;
+        }
+        .drop-icon { font-size: 2.4rem; margin-bottom: 12px; }
+        .drop-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem; color: var(--soil);
+            margin-bottom: 6px;
+        }
+        .drop-subtitle {
+            font-size: 0.8rem; color: var(--subtle); font-weight: 300;
+        }
+        .drop-badge {
+            display: inline-block; margin-top: 14px;
+            padding: 4px 12px; border-radius: 100px;
+            background: rgba(58,107,53,0.10);
+            font-size: 0.75rem; font-weight: 600; color: var(--moss);
+        }
+
+        /* ── PREVIEW ─────────────────────────────────────────── */
+        .preview-wrap {
+            display: none;
+            margin-top: 18px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--sky);
+            position: relative;
+        }
+        .preview-wrap.show { display: block; animation: fadeUp .3s ease; }
+        .preview-wrap img {
+            width: 100%; max-height: 220px;
+            object-fit: cover; display: block;
+        }
+        .preview-label {
+            position: absolute; top: 8px; left: 8px;
+            background: rgba(44,26,14,0.65);
+            color: #fff; font-size: 0.72rem; font-weight: 600;
+            padding: 3px 10px; border-radius: 100px;
+            backdrop-filter: blur(4px);
+        }
+        .preview-filename {
+            padding: 8px 14px;
+            font-size: 0.78rem; color: var(--subtle);
+            background: var(--mist);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        /* ── SUBMIT BUTTON ───────────────────────────────────── */
+        .submit-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 24px;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--moss), var(--leaf));
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 600;
+            border: none; border-radius: 12px;
+            cursor: pointer;
+            transition: opacity .2s, transform .2s;
+        }
+        .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn svg { transition: transform .2s; }
+        .submit-btn:hover svg { transform: translateX(3px); }
+
+        /* ── TIPS ────────────────────────────────────────────── */
+        .tips {
+            margin-top: 28px;
+            background: var(--mist);
+            border-radius: 14px;
+            padding: 18px 20px;
+        }
+        .tips h4 {
+            font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--moss); margin-bottom: 10px;
+        }
+        .tips ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .tips li {
+            display: flex; align-items: flex-start; gap: 8px;
+            font-size: 0.8rem; color: var(--subtle); font-weight: 300;
+        }
+        .tips li::before { content: '✓'; color: var(--leaf); font-weight: 700; flex-shrink: 0; }
+
+        /* ── ANIMATIONS ──────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .topbar { padding: 14px 20px; }
+            .card-top, .card-body { padding: 24px 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAV -->
+    <nav class="topbar">
+        <div class="topbar-brand">
+            <span>🌾</span> AgriSense
+        </div>
+        <div class="topbar-right">
+            <span class="welcome-pill">👤 {{ session.user_name }}</span>
+            <a href="{{ url_for('farmer.dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a>
+        </div>
+    </nav>
+
+    <div class="page">
+
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('farmer.dashboard') }}">Dashboard</a>
+            <span>›</span>
+            <span>Upload Leaf</span>
+        </div>
+
+        <!-- UPLOAD CARD -->
+        <div class="upload-card">
+
+            <!-- Card Header -->
+            <div class="card-top">
+                <div class="page-icon">🍃</div>
+                <h1>Upload Wheat Leaf</h1>
+                <p>Our AI will scan your image for signs of disease in seconds.</p>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Upload Form -->
+                <form method="POST" action="{{ url_for('farmer.upload') }}" enctype="multipart/form-data" id="uploadForm">
+<!-- Add these fields inside your existing <form> tag -->
+<input type="text" name="farmer_name" placeholder="Your Name" required 
+       style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid #ccc;"/>
+<button type="button" onclick="getLocation()" style="padding:10px 20px; background:#3A6B35; color:white; border:none; border-radius:8px; cursor:pointer;">
+    📍 Use My Location
+</button>
+
+<script>
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        document.querySelector('[name="latitude"]').value = position.coords.latitude;
+        document.querySelector('[name="longitude"]').value = position.coords.longitude;
+    });
+}
+</script>
+<input type="number" name="latitude" placeholder="Latitude (e.g. 18.5204)" step="any" required 
+       style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid #ccc;"/>
+
+<input type="number" name="longitude" placeholder="Longitude (e.g. 73.8567)" step="any" required 
+       style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid #ccc;"/>
+                    <!-- Drop Zone -->
+                    <div class="drop-zone" id="dropZone">
+                        <input type="file" name="file" accept="image/*" required id="fileInput">
+                        <div class="drop-icon">📷</div>
+                        <div class="drop-title">Drop your image here</div>
+                        <div class="drop-subtitle">or click to browse from your device</div>
+                        <span class="drop-badge">JPG · PNG · WEBP · up to 10 MB</span>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div class="preview-wrap" id="previewWrap">
+                        <span class="preview-label">Selected</span>
+                        <img id="previewImg" src="" alt="Preview">
+                        <div class="preview-filename" id="previewName"></div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="submit-btn">
+                        Analyze Image
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Tips -->
+                <div class="tips">
+                    <h4>Tips for best results</h4>
+                    <ul>
+                        <li>Use clear, well-lit photos taken in daylight.</li>
+                        <li>Centre the affected leaf and fill the frame.</li>
+                        <li>Avoid blurry or heavily shadowed images.</li>
+                        <li>Upload a single leaf per analysis for accuracy.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput  = document.getElementById('fileInput');
+        const dropZone   = document.getElementById('dropZone');
+        const previewWrap= document.getElementById('previewWrap');
+        const previewImg = document.getElementById('previewImg');
+        const previewName= document.getElementById('previewName');
+
+        function showPreview(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                previewImg.src = e.target.result;
+                previewName.textContent = `📁 ${file.name}  (${(file.size/1024/1024).toFixed(2)} MB)`;
+                previewWrap.classList.add('show');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        fileInput.addEventListener('change', () => showPreview(fileInput.files[0]));
+
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault(); dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) { fileInput.files = e.dataTransfer.files; showPreview(file); }
+        });
+    </script>
+
+</body>
+</html>

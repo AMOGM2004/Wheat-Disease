@@ -1,0 +1,35 @@
+DISEASE: Yellow Rust (Stripe Rust)
+PATHOGEN: Puccinia striiformis f. sp. tritici
+STAGE: All stages, most damaging at flag leaf
+
+SYMPTOMS:
+- Bright yellow to lemon-yellow pustules in stripes along leaves
+- Pustules run parallel to leaf veins — stripe pattern is diagnostic
+- Young pustules surrounded by pale yellow halo
+- Infected leaves turn yellow then brown and die
+- Yellow powder visible on hands when touching infected leaves
+- Black pustules appear late in season
+
+CAUSES:
+- Obligate fungal pathogen Puccinia striiformis
+- Cool temperatures 10-15°C with high moisture (dew, rain, fog)
+- Spores spread by wind over hundreds of kilometers
+- Dense sowing traps moisture and promotes spread
+- New virulent races can overcome previously resistant varieties
+
+TREATMENT:
+- Propiconazole 0.1% foliar spray at first sign — most effective
+- Tebuconazole or triadimefon also effective
+- Apply early — once 5% leaf area is infected, damage is occurring
+- Two sprays: at tillering and again at flag leaf emergence
+- Strobilurin fungicides give good residual protection
+
+PREVENTION:
+- Grow resistant or tolerant varieties — most cost-effective control
+- Avoid excessive nitrogen which promotes soft leaf tissue
+- Monitor fields from tillering, especially in cool moist weather
+- Remove volunteer wheat plants between seasons
+- Early sowing helps crop escape peak rust pressure
+
+SEVERITY: High — can cause 40-70% yield loss in susceptible varieties
+FAVORABLE CONDITIONS: Temperature 10-15°C, Humidity above 95%, Cool nights with dew

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Wheat Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container" style="max-width: 500px;">
+        <div class="header">
+            <h1>📝 Farmer Registration</h1>
+            <p>Create your account for disease detection</p>
+        </div>
+
+        <div class="upload-section">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form class="upload-form" method="POST" action="{{ url_for('auth.register') }}">
+                <input class="file-input" type="text" name="name" placeholder="Full Name" required>
+                <input class="file-input" type="email" name="email" placeholder="Email Address" required>
+                <input class="file-input" type="password" name="password" placeholder="Password" required>
+                <input type="hidden" name="role" value="farmer">
+                <button type="button" onclick="getLocation()"
+                    style="width:100%; padding:10px; margin-bottom:12px; background:#3A6B35; color:white; border:none; border-radius:8px; cursor:pointer;">
+                    📍 Use My Location
+                </button>
+                <input type="hidden" name="latitude" id="latitude" value="0" />
+                <input type="hidden" name="longitude" id="longitude" value="0" />
+
+                <script>
+                    function getLocation() {
+                        navigator.geolocation.getCurrentPosition(function (pos) {
+                            document.getElementById('latitude').value = pos.coords.latitude;
+                            document.getElementById('longitude').value = pos.coords.longitude;
+                            alert('✅ Location captured!');
+                        }, function (err) {
+                            alert('❌ Location access denied. Please allow location.');
+                        });
+                    }
+                </script>
+                <button type="submit" class="btn">Register</button>
+            </form>
+
+            <p style="margin-top: 20px; text-align: center;">
+                Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

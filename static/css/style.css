@@ -1,0 +1,553 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:30px;
+
+    /* soft agriculture gradient */
+    background: linear-gradient(
+        135deg,
+        #e8f5e9 0%,
+        #f1f8ff 40%,
+        #fff6e5 80%,
+        #ffffff 100%
+    );
+}
+
+
+/* MAIN CONTAINER */
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    background:white;
+    border-radius:25px;
+    padding:40px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.08);
+
+    border:1px solid #eef2f6;
+}
+
+
+
+/* HEADER */
+
+.header{
+    text-align:center;
+    margin-bottom:45px;
+    padding-bottom:20px;
+    border-bottom:2px solid #f1f1f1;
+}
+
+.header h1{
+    font-size:2.7em;
+    margin-bottom:12px;
+
+    background:linear-gradient(120deg,#2e7d32,#66bb6a);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.header p{
+    font-size:1.15em;
+    color:#6b7280;
+}
+
+
+
+/* UPLOAD SECTION */
+
+.upload-section{
+
+    background:#ffffff;
+
+    border:2px dashed #cfe8cf;
+
+    border-radius:22px;
+
+    padding:40px;
+
+    text-align:center;
+
+    transition:0.3s;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.05);
+}
+
+.upload-section:hover{
+
+    border-color:#66bb6a;
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,0.08);
+}
+
+
+
+.upload-form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:25px;
+}
+
+
+
+/* FILE INPUT */
+
+.file-input{
+
+    padding:18px;
+
+    border-radius:14px;
+
+    border:2px solid #e5e7eb;
+
+    background:#f8fafc;
+
+    width:100%;
+    max-width:500px;
+
+    transition:0.25s;
+}
+
+.file-input:hover{
+
+    border-color:#66bb6a;
+
+    background:white;
+}
+
+
+
+/* BUTTON */
+
+.btn{
+
+    background:linear-gradient(120deg,#66bb6a,#81c784);
+
+    color:white;
+
+    border:none;
+
+    padding:16px 45px;
+
+    border-radius:14px;
+
+    font-size:1.1em;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.08);
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,0.12);
+}
+
+
+
+/* SECONDARY BUTTON */
+
+.btn-secondary{
+
+    background:white;
+
+    border:2px solid #66bb6a;
+
+    color:#2e7d32;
+}
+
+.btn-secondary:hover{
+
+    background:#e8f5e9;
+}
+
+
+
+/* RESULT SECTION */
+
+.result-container{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:40px;
+
+    margin-top:40px;
+}
+
+
+
+/* IMAGE PREVIEW */
+
+.image-preview{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.07);
+}
+
+.image-preview h3{
+
+    margin-bottom:18px;
+
+    color:#2e7d32;
+}
+
+.image-preview img{
+
+    max-width:100%;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.1);
+}
+
+
+
+/* RESULT DETAILS */
+
+.result-details{
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.07);
+}
+
+
+
+.disease-name{
+
+    font-size:2.3em;
+
+    color:#2e7d32;
+
+    margin-bottom:18px;
+}
+
+
+
+/* CONFIDENCE BAR */
+
+.confidence-bar{
+
+    height:18px;
+
+    background:#e5e7eb;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    margin:25px 0;
+}
+
+.confidence-fill{
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #66bb6a,
+        #42a5f5
+    );
+
+    border-radius:25px;
+
+    transition:width 1s;
+}
+
+
+
+/* ALERT */
+
+.alert{
+
+    background:#fff3cd;
+
+    border-left:5px solid #f4a261;
+
+    padding:18px;
+
+    border-radius:10px;
+
+    color:#7c4a00;
+
+    margin:25px 0;
+}
+
+
+
+/* STATS */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+    margin-top:35px;
+}
+
+
+
+.stat-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.06);
+
+    transition:0.3s;
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 18px 35px rgba(0,0,0,0.1);
+}
+
+
+
+.stat-card h3{
+
+    color:#6b7280;
+
+    margin-bottom:12px;
+}
+
+
+
+.stat-number{
+
+    font-size:3em;
+
+    font-weight:700;
+
+    color:#2e7d32;
+}
+
+
+
+/* STAGE BADGES */
+
+.stage-badge{
+
+    display:inline-block;
+
+    padding:7px 18px;
+
+    border-radius:25px;
+
+    font-size:0.9em;
+
+    font-weight:600;
+}
+
+
+
+.stage-early{
+
+    background:#d4edda;
+
+    color:#1b5e20;
+}
+
+
+
+.stage-moderate{
+
+    background:#fff3cd;
+
+    color:#856404;
+}
+
+
+
+.stage-severe{
+
+    background:#fdecea;
+
+    color:#b71c1c;
+}
+
+
+
+/* TABLE */
+
+.table-container{
+
+    margin-top:40px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.07);
+
+    overflow-x:auto;
+}
+
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+}
+
+
+
+th{
+
+    background:#f0f9ff;
+
+    padding:16px;
+
+    text-align:left;
+
+    border-bottom:2px solid #42a5f5;
+
+    color:#2e7d32;
+}
+
+
+
+td{
+
+    padding:14px;
+
+    border-bottom:1px solid #eee;
+
+    color:#444;
+}
+
+
+
+tr:hover{
+
+    background:#f9fbfd;
+}
+
+
+
+/* NAVIGATION */
+
+.nav-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin:25px 0;
+
+    flex-wrap:wrap;
+}
+
+
+
+.nav-link{
+
+    text-decoration:none;
+
+    color:#2e7d32;
+
+    background:#e8f5e9;
+
+    padding:10px 20px;
+
+    border-radius:12px;
+
+    font-weight:500;
+
+    transition:0.25s;
+}
+
+
+
+.nav-link:hover{
+
+    background:#66bb6a;
+
+    color:white;
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    .container{
+        padding:25px;
+    }
+
+    .header h1{
+        font-size:2em;
+    }
+
+    .result-container{
+        grid-template-columns:1fr;
+    }
+
+    .stat-number{
+        font-size:2.2em;
+    }
+
+}

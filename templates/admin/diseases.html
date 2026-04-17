@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Diseases - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Disease Management</h1>
+            <p><a href="{{ url_for('admin.dashboard') }}">← Back to Dashboard</a> | <a href="{{ url_for('auth.logout') }}">Logout</a></p>
+        </div>
+
+        <div style="text-align: right; margin-bottom: 30px;">
+            <a href="{{ url_for('admin.add_disease') }}" class="btn">+ Add New Disease</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Disease Name</th>
+                        <th>Stage Category</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for disease in diseases %}
+                    <tr>
+                        <td>{{ disease[0] }}</td>
+                        <td><strong>{{ disease[1] }}</strong></td>
+                        <td>
+                            <span class="stage-badge 
+                                {% if disease[7] == 'Early' %}stage-early
+                                {% elif disease[7] == 'Moderate' %}stage-moderate
+                                {% elif disease[7] == 'Severe' %}stage-severe
+                                {% endif %}">
+                                {{ disease[7] }}
+                            </span>
+                        </td>
+                        <td>{{ disease[2][:100] }}...</td>
+                        <td>
+                            <a href="{{ url_for('admin.edit_disease', id=disease[0]) }}" class="btn-secondary" style="padding: 8px 15px; font-size: 0.9em; margin-right: 5px;">Edit</a>
+                            <a href="{{ url_for('admin.delete_disease', id=disease[0]) }}" class="btn-secondary" style="padding: 8px 15px; font-size: 0.9em; background: #fee2e2; color: #991b1b; border-color: #991b1b;" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

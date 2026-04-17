@@ -1,0 +1,509 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Disease - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 800px;">
+        <div class="header">
+            <h1>➕ Add New Disease</h1>
+            <p><a href="{{ url_for('admin.manage_diseases') }}">← Back to Diseases</a></p>
+        </div>
+
+        <div class="upload-section">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+<form class="upload-form" method="POST" enctype="multipart/form-data" style="width: 100%;">
+                <input class="file-input" type="text" name="name" placeholder="Disease Name" required>
+                
+                <select class="file-input" name="stage_category" required>
+                    <option value="">Select Growth Stage</option>
+                    <option value="Early">Early (0-1 Month)</option>
+                    <option value="Moderate">Moderate (1-2 Months)</option>
+                    <option value="Severe">Severe (2-4 Months)</option>
+                </select>
+                
+                <textarea class="file-input" name="description" placeholder="Description" rows="4" required></textarea>
+                <textarea class="file-input" name="symptoms" placeholder="Symptoms (one per line)" rows="4" required></textarea>
+                <textarea class="file-input" name="causes" placeholder="Causes" rows="3" required></textarea>
+                <textarea class="file-input" name="treatment" placeholder="Treatment Recommendations" rows="4" required></textarea>
+                <textarea class="file-input" name="prevention" placeholder="Prevention Methods" rows="3" required></textarea>
+<input class="file-input" type="file" name="images" accept="image/*" multiple>
+<small style="color: #666; display: block; margin-bottom: 15px;">Upload up to 3 disease images</small>
+
+                <button type="submit" class="btn">Add Disease</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Disease - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        :root {
+            --green-dark: #0b2a35;
+            --green-mid: #1a5c40;
+            --green-accent: #2ecc71;
+            --green-light: #e8f5ee;
+            --gold: #c9a84c;
+            --surface: #ffffff;
+            --border: #d4e6dc;
+            --text: #1a2e25;
+            --muted: #6b8f7a;
+            --error: #e74c3c;
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f9f4 0%, #e8f5ee 50%, #f5f9f7 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--text);
+        }
+
+        .page-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--green-mid);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 28px;
+            transition: gap 0.2s;
+        }
+        .back-link:hover { gap: 12px; }
+
+        .page-header {
+            margin-bottom: 36px;
+        }
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--green-dark);
+            line-height: 1.2;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+            margin-top: 6px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 32px rgba(11,42,53,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--green-accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .field-group {
+            margin-bottom: 22px;
+        }
+        .field-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green-dark);
+            margin-bottom: 8px;
+        }
+        .field-group label .req {
+            color: var(--error);
+            margin-left: 3px;
+        }
+
+        .field-group input[type="text"],
+        .field-group select,
+        .field-group textarea {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: #fafcfb;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            resize: vertical;
+        }
+        .field-group input:focus,
+        .field-group select:focus,
+        .field-group textarea:focus {
+            border-color: var(--green-accent);
+            box-shadow: 0 0 0 3px rgba(46,204,113,0.12);
+            background: #fff;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        /* Image Upload Boxes */
+        .images-section { margin-bottom: 32px; }
+
+        .image-upload-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .image-upload-box {
+            position: relative;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            overflow: hidden;
+            background: #fafcfb;
+        }
+        .image-upload-box:hover {
+            border-color: var(--green-accent);
+            background: var(--green-light);
+        }
+        .image-upload-box.has-image {
+            border-color: var(--green-accent);
+            border-style: solid;
+        }
+        .image-upload-box.required-box {
+            border-color: #a8d5bc;
+        }
+
+        .image-upload-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .upload-placeholder {
+            text-align: center;
+            pointer-events: none;
+            padding: 16px;
+        }
+        .upload-placeholder .icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .upload-placeholder .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green-dark);
+            margin-bottom: 4px;
+        }
+        .upload-placeholder .sub {
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .upload-placeholder .badge {
+            display: inline-block;
+            margin-top: 8px;
+            background: var(--green-accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+        .upload-placeholder .badge.optional {
+            background: var(--border);
+            color: var(--muted);
+        }
+
+        .image-preview {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            border-radius: calc(var(--radius) - 2px);
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(231,76,60,0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+        .remove-btn:hover { background: var(--error); }
+
+        .image-upload-box.has-image .image-preview { display: block; }
+        .image-upload-box.has-image .upload-placeholder { display: none; }
+        .image-upload-box.has-image .remove-btn { display: flex; }
+
+        /* Submit button */
+        .submit-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hint-text {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 16px rgba(26,92,64,0.3);
+            letter-spacing: 0.3px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26,92,64,0.35);
+        }
+        .btn-submit:active { transform: translateY(0); }
+
+        .alert {
+            background: #d4edda;
+            color: #155724;
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            font-size: 14px;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 24px 18px; }
+            .two-col { grid-template-columns: 1fr; }
+            .image-upload-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .page-header h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="{{ url_for('admin.manage_diseases') }}" class="back-link">← Back to Diseases</a>
+
+        <div class="page-header">
+            <h1>Add New Disease</h1>
+            <p>Fill in the details below to register a new wheat disease entry.</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <form method="POST" enctype="multipart/form-data" id="diseaseForm">
+
+                <div class="section-label">Basic Info</div>
+
+                <div class="two-col">
+                    <div class="field-group">
+                        <label>Disease Name <span class="req">*</span></label>
+                        <input type="text" name="name" placeholder="e.g. Wheat Rust" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Growth Stage <span class="req">*</span></label>
+                        <select name="stage_category" required>
+                            <option value="">Select Stage</option>
+                            <option value="Early">Early (0–1 Month)</option>
+                            <option value="Moderate">Moderate (1–2 Months)</option>
+                            <option value="Severe">Severe (2–4 Months)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Description <span class="req">*</span></label>
+                    <textarea name="description" placeholder="Brief overview of the disease..." rows="3" required></textarea>
+                </div>
+
+                <div class="section-label">Clinical Details</div>
+
+                <div class="field-group">
+                    <label>Symptoms <span class="req">*</span></label>
+                    <textarea name="symptoms" placeholder="List symptoms, one per line..." rows="3" required></textarea>
+                </div>
+
+                <div class="two-col">
+                    <div class="field-group">
+                        <label>Causes <span class="req">*</span></label>
+                        <textarea name="causes" placeholder="Primary causes..." rows="3" required></textarea>
+                    </div>
+                    <div class="field-group">
+                        <label>Prevention <span class="req">*</span></label>
+                        <textarea name="prevention" placeholder="Preventive measures..." rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Treatment Recommendations <span class="req">*</span></label>
+                    <textarea name="treatment" placeholder="Recommended treatments and interventions..." rows="3" required></textarea>
+                </div>
+
+                <div class="section-label images-section">Disease Images</div>
+
+                <div class="image-upload-grid" style="margin-bottom: 28px;">
+
+                    <!-- Image 1 - Required -->
+                    <div class="image-upload-box required-box" id="box1">
+                        <input type="file" name="image1" accept="image/*" id="img1" onchange="previewImage(this,'box1','prev1')">
+                        <img class="image-preview" id="prev1" src="" alt="">
+                        <button type="button" class="remove-btn" onclick="removeImage('box1','img1','prev1')">×</button>
+                        <div class="upload-placeholder">
+                            <span class="icon">🌿</span>
+                            <div class="title">Primary Image</div>
+                            <div class="sub">Click to upload</div>
+                            <span class="badge">Required</span>
+                        </div>
+                    </div>
+
+                    <!-- Image 2 - Optional -->
+                    <div class="image-upload-box" id="box2">
+                        <input type="file" name="image2" accept="image/*" id="img2" onchange="previewImage(this,'box2','prev2')">
+                        <img class="image-preview" id="prev2" src="" alt="">
+                        <button type="button" class="remove-btn" onclick="removeImage('box2','img2','prev2')">×</button>
+                        <div class="upload-placeholder">
+                            <span class="icon">📷</span>
+                            <div class="title">Second Image</div>
+                            <div class="sub">Click to upload</div>
+                            <span class="badge optional">Optional</span>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 - Optional -->
+                    <div class="image-upload-box" id="box3">
+                        <input type="file" name="image3" accept="image/*" id="img3" onchange="previewImage(this,'box3','prev3')">
+                        <img class="image-preview" id="prev3" src="" alt="">
+                        <button type="button" class="remove-btn" onclick="removeImage('box3','img3','prev3')">×</button>
+                        <div class="upload-placeholder">
+                            <span class="icon">📷</span>
+                            <div class="title">Third Image</div>
+                            <div class="sub">Click to upload</div>
+                            <span class="badge optional">Optional</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="submit-row">
+                    <span class="hint-text">Fields marked <span style="color:var(--error)">*</span> are required</span>
+                    <button type="submit" class="btn-submit">Add Disease →</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function previewImage(input, boxId, previewId) {
+            const box = document.getElementById(boxId);
+            const preview = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    preview.src = e.target.result;
+                    box.classList.add('has-image');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function removeImage(boxId, inputId, previewId) {
+            const box = document.getElementById(boxId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            input.value = '';
+            preview.src = '';
+            box.classList.remove('has-image');
+        }
+
+        document.getElementById('diseaseForm').addEventListener('submit', function(e) {
+            const img1 = document.getElementById('img1');
+            if (!img1.files || img1.files.length === 0) {
+                e.preventDefault();
+                alert('Please upload at least the primary image.');
+                document.getElementById('box1').style.borderColor = '#e74c3c';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheat Disease Detection System</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌾 Wheat Disease Detection System</h1>
+            <p>Upload a wheat leaf image for instant disease diagnosis</p>
+        </div>
+        
+        <div class="upload-section">
+            <form class="upload-form" method="POST" action="/predict" enctype="multipart/form-data">
+                <input class="file-input" type="file" name="file" accept="image/*" required>
+                <button type="submit" class="btn">Analyze Image</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
