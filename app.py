@@ -135,8 +135,8 @@ if __name__ == '__main__':
 
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@farmer_bp.route('/upload', methods=['GET', 'POST'])
+def upload():
     file = request.files['image']
     farmer_name = request.form.get('farmer_name', 'Unknown')
     latitude = float(request.form.get('latitude', 18.5204))

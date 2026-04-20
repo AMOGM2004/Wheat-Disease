@@ -22,6 +22,11 @@ def dashboard():
     
     c.execute("SELECT COUNT(*) FROM diseases")
     diseases_count = c.fetchone()[0]
+    c.execute("""SELECT users.name, predictions.image_path, predictions.disease, 
+             predictions.confidence, predictions.stage, predictions.created_at 
+             FROM predictions JOIN users ON predictions.user_id = users.id 
+             ORDER BY predictions.created_at DESC""")
+    all_predictions = c.fetchall()
     
     # Get most common disease
     c.execute("""SELECT disease, COUNT(*) as count FROM predictions 
@@ -34,7 +39,8 @@ def dashboard():
                          farmers_count=farmers_count,
                          predictions_count=predictions_count,
                          diseases_count=diseases_count,
-                         most_common=most_common)
+                         most_common=most_common,
+                           all_predictions=all_predictions)
 
 @admin_bp.route('/diseases')
 def manage_diseases():
@@ -64,15 +70,15 @@ def add_disease():
         stage_category = request.form['stage_category']
         
         # Handle image uploads
+        # ✅ New code — matches image1, image2, image3
         image_paths = []
-        if 'images' in request.files:
-            files = request.files.getlist('images')
-            for file in files[:3]:  # Max 3 images
-                if file and file.filename:
-                    filename = secure_filename(f"disease_{int(datetime.now().timestamp())}_{file.filename}")
-                    filepath = os.path.join('static/disease_images/', filename)
-                    file.save(filepath)
-                    image_paths.append(f"disease_images/{filename}")
+        for i in range(1, 4):
+            file = request.files.get(f'image{i}')
+            if file and file.filename:
+                filename = secure_filename(f"disease_{int(datetime.now().timestamp())}_{file.filename}")
+                filepath = os.path.join('static/disease_images/', filename)
+                file.save(filepath)
+                image_paths.append(f"disease_images/{filename}")
         
         conn = sqlite3.connect('database.db')
         c = conn.cursor()

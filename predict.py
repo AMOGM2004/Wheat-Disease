@@ -22,6 +22,8 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 import sqlite3
 
+from keras.models import load_model
+model = load_model("wheat_model.h5", compile=False, safe_mode=False)
 IMG_SIZE = 224
 model = tf.keras.models.load_model("wheat_model.h5")
 class_names = ["Healthy", "BlackPoint", "LeafBlight", "WheatBlast", "FusariumFootRot"]

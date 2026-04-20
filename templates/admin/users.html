@@ -22,7 +22,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Verified</th>
+                      
                         <th>Registered On</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                                 {{ user[3] }}
                             </span>
                         </td>
-                        <td>{% if user[4] == 1 %}✅ Verified{% else %}⏳ Pending{% endif %}</td>
+                        
                         <td>{{ user[5] }}</td>
                     </tr>
                     {% endfor %}
